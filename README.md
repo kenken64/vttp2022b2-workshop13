@@ -4,12 +4,12 @@
 
 Linux/Macos
 ```
-mvn spring-boot:run -Dspring-boot:run.arguments=--dataDir=/opt/tmp/data
+mvn spring-boot:run -Dspring-boot.run.arguments=--dataDir=/opt/tmp/data
 ```
 
 Windows 10/11
 ```
-mvn spring-boot:run -Dspring-boot:run.arguments=--dataDir=C:/data
+mvn spring-boot:run -Dspring-boot.run.arguments=--dataDir=C:/data
 ```
 
 * Incorporate test starter dependencies to the pom.xml
