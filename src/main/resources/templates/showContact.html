@@ -9,6 +9,11 @@
 <body th:object="${contact}">
     <h1>Your contact information</h1>
     <p>
+        Id:
+        <p th:text="*{id}"></p>
+    </p>
+    <br>
+    <p>
         Name:
         <p th:text="*{name}"></p>
     </p>
