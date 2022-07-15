@@ -24,7 +24,7 @@ public class AddressbookController {
     @Autowired
     ApplicationArguments appArgs;
 
-    @Value("${test.data.dir")
+    @Value("${test.data.dir}")
     private String dataDir;
 
     @GetMapping
@@ -41,7 +41,7 @@ public class AddressbookController {
 
     @GetMapping("{contactId}")
     public String getContactById(Model model, @PathVariable String contactId) {
-        ctcz.getContactById(model, contactId, appArgs);
+        ctcz.getContactById(model, contactId, appArgs, dataDir);
         return "showContact";
     }
 }

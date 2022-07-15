@@ -49,6 +49,12 @@ class Workshop13ApplicationTests {
 	}
 
 	@Test
+	public void testAddressbookController() {
+		assertThat(this.restTemplate.getForObject(TEST_URL + port + "/addressbook",
+				String.class)).contains("Your contact information");
+	}
+	
+	@Test
 	public void testContact() throws Exception {
 		Contact c = new Contact();
 		c.setEmail("a@a.com");
@@ -57,11 +63,7 @@ class Workshop13ApplicationTests {
 		assertEquals(c.getEmail(), "a@a.com");
 	}
 
-	@Test
-	public void testAddressbookController() {
-		assertThat(this.restTemplate.getForObject(TEST_URL + port + "/addressbook",
-				String.class)).contains("Your contact information");
-	}
+	
 
 	@Test
 	public void testSaveAddressUsingUrlEncoded() {

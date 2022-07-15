@@ -42,10 +42,10 @@ public class Contacts {
                 ctc.getEmail(), ctc.getPhoneNumber()));
     }
 
-    public void getContactById(Model model, String contactId, ApplicationArguments appArgs) {
+    public void getContactById(Model model, String contactId, ApplicationArguments appArgs, String defaultDataDir) {
         Contact ctc = new Contact();
         try {
-            Path filePath = new File(getDataDir(appArgs) + "/" + contactId).toPath();
+            Path filePath = new File(getDataDir(appArgs, defaultDataDir) + "/" + contactId).toPath();
             Charset charset = Charset.forName("UTF-8");
             List<String> stringList = Files.readAllLines(filePath, charset);
             ctc.setId(contactId);
