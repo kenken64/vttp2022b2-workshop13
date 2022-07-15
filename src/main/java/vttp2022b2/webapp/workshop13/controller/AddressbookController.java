@@ -1,6 +1,7 @@
 package vttp2022b2.webapp.workshop13.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,9 @@ public class AddressbookController {
     @Autowired
     ApplicationArguments appArgs;
 
+    @Value("${test.data.dir")
+    private String dataDir;
+
     @GetMapping
     public String showAddressbookForm(Model model) {
         model.addAttribute("contact", new Contact());
@@ -31,7 +35,7 @@ public class AddressbookController {
 
     @PostMapping
     public String saveContact(@ModelAttribute Contact contact, Model model) {
-        ctcz.saveContact(contact, model, appArgs);
+        ctcz.saveContact(contact, model, appArgs, dataDir);
         return "showContact";
     }
 

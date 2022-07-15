@@ -2,42 +2,50 @@ package vttp2022b2.webapp.workshop13;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import vttp2022b2.webapp.workshop13.controller.AddressbookController;
 import vttp2022b2.webapp.workshop13.model.Contact;
-import vttp2022b2.webapp.workshop13.util.Contacts;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class Workshop13ApplicationTests {
 
-	@Autowired
-	private MockMvc mvc;
+	@LocalServerPort
+	private int port;
 
-	@InjectMocks
+	@Autowired
 	private AddressbookController addressbkController;
 
-	@BeforeEach
-	public void setup() {
-		mvc = MockMvcBuilders.standaloneSetup(addressbkController)
-				.build();
+	@Autowired
+	private MockMvc mockMvc;
 
-	}
+	@Autowired
+	private TestRestTemplate restTemplate;
+
+	private static final String TEST_URL = "http://localhost:";
 
 	@Test
 	void contextLoads() {
+		assertThat(addressbkController).isNotNull();
 	}
 
 	@Test
@@ -51,12 +59,40 @@ class Workshop13ApplicationTests {
 
 	@Test
 	public void testAddressbookController() {
-		// when
-		// MockHttpServletResponse response = mvc.perform(
-		// 		get("/addressbook/ce1bca63")
-		// 				.accept(MediaType.TEXT_HTML_VALUE))
-		// 		.andReturn().getResponse();
+		assertThat(this.restTemplate.getForObject(TEST_URL + port + "/addressbook",
+				String.class)).contains("Your contact information");
+	}
 
+	@Test
+	public void testSaveAddressUsingUrlEncoded() {
+		try {
+			ResultActions result = this.mockMvc.perform(MockMvcRequestBuilders
+					.post(TEST_URL + port + "/addressbook")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+					.content("name=kenneth&email=k@k.com&phoneNumber=34324"));
+			System.out.println(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testSaveAddressUsingRestTemplate() {
+		final String baseUrl = TEST_URL + port + "/addressbook";
+		try {
+			URI uri = new URI(baseUrl);
+			Contact ctc = new Contact();
+			ctc.setEmail("kk@k.com");
+			ctc.setName("Test Engineer");
+			ctc.setPhoneNumber(3243432);
+			HttpHeaders headers = new HttpHeaders();
+			HttpEntity<Contact> request = new HttpEntity<>(ctc, headers);
+			ResponseEntity<String> result = this.restTemplate.postForEntity(TEST_URL + port
+					+ "/addressbook", request, String.class);
+			assertEquals(HttpStatus.OK, result.getStatusCode());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

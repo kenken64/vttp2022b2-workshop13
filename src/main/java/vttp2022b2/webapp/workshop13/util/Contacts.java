@@ -24,11 +24,11 @@ import vttp2022b2.webapp.workshop13.model.Contact;
 public class Contacts {
     private static final Logger logger = LoggerFactory.getLogger(Contacts.class);
 
-    public void saveContact(Contact ctc, Model model, ApplicationArguments appArgs) {
+    public void saveContact(Contact ctc, Model model, ApplicationArguments appArgs, String defaultDataDir) {
         String dataFilename = ctc.getId();
         PrintWriter prntWriter = null;
         try {
-            FileWriter fileWriter = new FileWriter(getDataDir(appArgs) + "/" + dataFilename);
+            FileWriter fileWriter = new FileWriter(getDataDir(appArgs, defaultDataDir) + "/" + dataFilename);
             prntWriter = new PrintWriter(fileWriter);
             prntWriter.println(ctc.getName());
             prntWriter.println(ctc.getEmail());
@@ -61,11 +61,20 @@ public class Contacts {
         model.addAttribute("contact", ctc);
     }
 
-    private String getDataDir(ApplicationArguments appArgs) {
+    private String getDataDir(ApplicationArguments appArgs, String defaultDataDir) {
+        String dataDirResult = "";
+        List<String> optValues = null;
+        String[] optValuesArr = null;
         Set<String> opsNames = appArgs.getOptionNames();
         String[] optNamesArr = opsNames.toArray(new String[opsNames.size()]);
-        List<String> optValues = appArgs.getOptionValues(optNamesArr[0]);
-        String[] optValuesArr = optValues.toArray(new String[optValues.size()]);
-        return optValuesArr[0];
+        if (optNamesArr.length > 0) {
+            optValues = appArgs.getOptionValues(optNamesArr[0]);
+            optValuesArr = optValues.toArray(new String[optValues.size()]);
+            dataDirResult = optValuesArr[0];
+        } else {
+            dataDirResult = defaultDataDir;
+        }
+
+        return dataDirResult;
     }
 }
