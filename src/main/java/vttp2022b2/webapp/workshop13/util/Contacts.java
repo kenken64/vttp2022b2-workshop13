@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ public class Contacts {
             prntWriter.println(ctc.getName());
             prntWriter.println(ctc.getEmail());
             prntWriter.println(ctc.getPhoneNumber());
+            prntWriter.println(ctc.getDateOfBirth().toString());
             prntWriter.close();
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -44,6 +47,7 @@ public class Contacts {
 
     public void getContactById(Model model, String contactId, ApplicationArguments appArgs, String defaultDataDir) {
         Contact ctc = new Contact();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             Path filePath = new File(getDataDir(appArgs, defaultDataDir) + "/" + contactId).toPath();
             Charset charset = Charset.forName("UTF-8");
@@ -52,6 +56,8 @@ public class Contacts {
             ctc.setName(stringList.get(0));
             ctc.setEmail(stringList.get(1));
             ctc.setPhoneNumber(Integer.parseInt(stringList.get(2)));
+            LocalDate dob = LocalDate.parse(stringList.get(3), formatter);
+            ctc.setDateOfBirth(dob);
         } catch (IOException e) {
             logger.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
