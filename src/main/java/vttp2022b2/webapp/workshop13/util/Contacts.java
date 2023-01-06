@@ -55,7 +55,7 @@ public class Contacts {
             ctc.setId(contactId);
             ctc.setName(stringList.get(0));
             ctc.setEmail(stringList.get(1));
-            ctc.setPhoneNumber(Integer.parseInt(stringList.get(2)));
+            ctc.setPhoneNumber(stringList.get(2));
             LocalDate dob = LocalDate.parse(stringList.get(3), formatter);
             ctc.setDateOfBirth(dob);
         } catch (IOException e) {

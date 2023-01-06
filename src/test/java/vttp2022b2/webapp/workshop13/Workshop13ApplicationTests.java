@@ -53,17 +53,15 @@ class Workshop13ApplicationTests {
 		assertThat(this.restTemplate.getForObject(TEST_URL + port + "/addressbook",
 				String.class)).contains("Your contact information");
 	}
-	
+
 	@Test
 	public void testContact() throws Exception {
 		Contact c = new Contact();
 		c.setEmail("a@a.com");
 		c.setName("Kenneth");
-		c.setPhoneNumber(422343);
+		c.setPhoneNumber("422343");
 		assertEquals(c.getEmail(), "a@a.com");
 	}
-
-	
 
 	@Test
 	public void testSaveAddressUsingUrlEncoded() {
@@ -86,7 +84,7 @@ class Workshop13ApplicationTests {
 			Contact ctc = new Contact();
 			ctc.setEmail("kk@k.com");
 			ctc.setName("Test Engineer");
-			ctc.setPhoneNumber(3243432);
+			ctc.setPhoneNumber("3243432");
 			HttpHeaders headers = new HttpHeaders();
 			HttpEntity<Contact> request = new HttpEntity<>(ctc, headers);
 			ResponseEntity<String> result = this.restTemplate.postForEntity(TEST_URL + port

@@ -7,7 +7,6 @@ import java.util.Random;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -22,8 +21,8 @@ public class Contact implements Serializable {
     @Email(message = "Invalid Email")
     private String email;
 
-    @Min(value = 8, message = "Phone number must be 8 digit")
-    private int phoneNumber;
+    @Size(min = 7, message = "Phone number must be at least 7 digit.")
+    private String phoneNumber;
 
     private String id;
 
@@ -32,22 +31,32 @@ public class Contact implements Serializable {
     @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate dateOfBirth;
 
+    private int age;
+
     public Contact() {
         this.id = this.generateId(8);
     }
 
-    public Contact(String name, String email, int phoneNumber) {
+    public Contact(String name, String email, String phoneNumber) {
         this.id = this.generateId(8);
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public Contact(String id, String name, String email, int phoneNumber) {
+    public Contact(String id, String name, String email, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     private synchronized String generateId(int numChars) {
@@ -75,11 +84,11 @@ public class Contact implements Serializable {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
