@@ -2,11 +2,14 @@ package vttp2022b2.webapp.workshop13.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Random;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -31,6 +34,9 @@ public class Contact implements Serializable {
     @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate dateOfBirth;
 
+    @NotNull(message = "User's age cannot be null.")
+    @Min(value = 10, message = "Must be above 10 years old")
+    @Max(value = 100, message = "Must be below 100 years old")
     private int age;
 
     public Contact() {
@@ -105,6 +111,11 @@ public class Contact implements Serializable {
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
+        int calculatedAge = 0;
+        if ((dateOfBirth != null)) {
+            calculatedAge = Period.between(dateOfBirth, LocalDate.now()).getYears();
+        }
+        this.age = calculatedAge;
         this.dateOfBirth = dateOfBirth;
     }
 

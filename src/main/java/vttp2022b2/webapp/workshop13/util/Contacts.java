@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,5 +84,19 @@ public class Contacts {
         }
 
         return dataDirResult;
+    }
+
+    public void getAllContactInURI(Model model, ApplicationArguments appArgs,
+            String defaultDataDir) {
+        Set<String> dataFiles = listFilesUsingJavaIO(getDataDir(appArgs, defaultDataDir));
+        System.out.println("" + dataFiles);
+        model.addAttribute("contacts", dataFiles.toArray(new String[dataFiles.size()]));
+    }
+
+    public Set<String> listFilesUsingJavaIO(String dir) {
+        return Stream.of(new File(dir).listFiles())
+                .filter(file -> !file.isDirectory())
+                .map(File::getName)
+                .collect(Collectors.toSet());
     }
 }

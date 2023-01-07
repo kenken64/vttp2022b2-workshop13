@@ -45,12 +45,7 @@ public class AddressbookController {
         if (binding.hasErrors()) {
             return "addressbook";
         }
-        System.out.println(checkAgeInBetween(contact));
-        if (!checkAgeInBetween(contact)) {
-            ObjectError err = new ObjectError("age", "Age must be between 10 and 100 years old");
-            binding.addError(err);
-            return "addressbook";
-        }
+
         ctcz.saveContact(contact, model, appArgs, dataDir);
         return "showContact";
     }
@@ -61,20 +56,9 @@ public class AddressbookController {
         return "showContact";
     }
 
-    private boolean checkAgeInBetween(Contact contact) {
-        LocalDate dob = contact.getDateOfBirth();
-        System.out.println("check age");
-        int calculatedAge = 0;
-        if ((dob != null)) {
-            calculatedAge = Period.between(dob, LocalDate.now()).getYears();
-        }
-        System.out.println(calculatedAge);
-        if (calculatedAge >= 10 && calculatedAge <= 100) {
-            contact.setAge(calculatedAge);
-            return true;
-        }
-
-        return false;
-
+    @GetMapping(path = "/list")
+    public String getAllContacts(Model model) {
+        ctcz.getAllContactInURI(model, appArgs, dataDir);
+        return "contacts";
     }
 }

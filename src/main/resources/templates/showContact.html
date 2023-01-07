@@ -6,31 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body th:object="${contact}">
+<body data-th-object="${contact}">
     <h1>Your contact information</h1>
     <p>
         Id:
-        <p th:text="*{id}"></p>
+        <p data-th-text="*{id}"></p>
     </p>
     <br>
     <p>
         Name:
-        <p th:text="*{name}"></p>
+        <p data-th-text="*{name}"></p>
     </p>
     <br>
     <p>
         Email:
-        <p th:text="*{email}"></p>
+        <p data-th-text="*{email}"></p>
     </p>
     <br>
     <p>
         Phone Number:
-        <p th:text="*{phoneNumber}"></p>
+        <p data-th-text="*{phoneNumber}"></p>
     </p>
     <br>
     <p>
         Date of Birth:
-        <p th:text="*{dateOfBirth}"></p>
+        <p data-th-text="*{dateOfBirth}"></p>
     </p>
     <br>
 </body>
