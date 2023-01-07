@@ -19,7 +19,6 @@ import vttp2022b2.webapp.workshop13.model.Contact;
 import vttp2022b2.webapp.workshop13.util.Contacts;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 
 @Controller
 @RequestMapping(path = "/addressbook")
