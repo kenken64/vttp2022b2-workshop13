@@ -44,7 +44,7 @@ public class Contacts {
         }
 
         model.addAttribute("contact", new Contact(ctc.getId(), ctc.getName(),
-                ctc.getEmail(), ctc.getPhoneNumber()));
+                ctc.getEmail(), ctc.getPhoneNumber(), ctc.getDateOfBirth()));
     }
 
     public void getContactById(Model model, String contactId, ApplicationArguments appArgs, String defaultDataDir) {

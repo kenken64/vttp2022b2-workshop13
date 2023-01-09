@@ -43,18 +43,19 @@ public class Contact implements Serializable {
         this.id = this.generateId(8);
     }
 
-    public Contact(String name, String email, String phoneNumber) {
+    public Contact(String name, String email, String phoneNumber, LocalDate dateOfBirth) {
         this.id = this.generateId(8);
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public Contact(String id, String name, String email, String phoneNumber) {
+    public Contact(String id, String name, String email, String phoneNumber, LocalDate dateOfBirth) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public int getAge() {
