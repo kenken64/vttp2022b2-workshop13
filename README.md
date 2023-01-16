@@ -1,4 +1,4 @@
-## Workshop 13
+## Workshop 13 (v1.1)
 
 - Run the spring boot app
 
